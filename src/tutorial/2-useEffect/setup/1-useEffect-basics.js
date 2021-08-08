@@ -11,8 +11,15 @@ import React, { useState, useEffect } from "react";
       - signing up for subscriptions
 - it takes a callback function as arguments
 - //! hooks cannot be called conditionally but You can call your function conditionally inside hooks/
+- use effect can be controlled to run conditionally by passing DEPENDENCY ARRAY as second argument.
+  - when you pass [] empty array, then it will run only on the INITIAL RENDER.
+  - you can pass some value inside dependency array to run useEffect everytime the value changes.
+- you can define more than one useEffect for a component.
 */
 const UseEffectBasics = () => {
+  const [value, setValue] = useState(0)
+
+  //using conditions inside useEffect - will run on each re-render
   useEffect(() => {
     console.log("call useEffect");
     if(value >= 1){
@@ -20,7 +27,20 @@ const UseEffectBasics = () => {
     }
   });
 
-  const [value, setValue] = useState(0)
+  // will run only ONCE on INITIAL RENDER as we set empty [] dependency array.
+  useEffect(()=>{
+    console.log('hello world')
+  },[])
+
+  //conditionally running useEffect using dependency array - will only run when value of dependency array is updated.
+  useEffect(() => {
+    console.log("call useEffect");
+    if(value >= 1){
+      document.title = `New message (${value})`
+    }
+  }, [value]);
+
+  
 
   return (
     <>

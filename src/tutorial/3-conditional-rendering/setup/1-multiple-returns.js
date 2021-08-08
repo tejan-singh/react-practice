@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
 //! Notes - conditional rendering multiple returns
 /*
@@ -7,16 +7,31 @@ import React, { useState, useEffect } from 'react';
 
 */
 
-const url = 'https://api.github.com/users/QuincyLarson';
+const url = "https://api.github.com/users/QuincyLarson";
+
 const MultipleReturns = () => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
+  const [user, setUser] = useState("default user");
 
-  const[loading, setLoading] = useState(true)
+  useEffect(() => {
+    fetch(url)
+      .then((response) => {return response.json()})
+      .then((user) => {
+        const { login } = user;
+        setUser(login);
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
-  if (loading){
+  if (isLoading) {
     return <h2>Loading...</h2>;
   }
 
-  return <h2>multiple returns</h2>;
+  return <h2>{user}</h2>;
 };
 
 export default MultipleReturns;

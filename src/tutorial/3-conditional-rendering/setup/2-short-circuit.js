@@ -4,7 +4,7 @@ import React, { useState } from "react";
 
 const ShortCircuit = () => {
   const [text, setText] = useState("");
-  const [isError, setIsError] = useState('')
+  const [isError, setIsError] = useState(false)
 
   //OR Operator - either value renders, which is true.
   const firstValue = text || "hello world";
@@ -22,6 +22,10 @@ const ShortCircuit = () => {
 
       {/* will render the second value*/}
       {!text && <h2>Hey! there</h2>}
+
+      <button className='btn' onClick={() => {setIsError(!isError)}}>Click me</button>
+
+      {isError ? (<h2>Error</h2>) : (<h2>No Error</h2>)}
     </>
   );
 };

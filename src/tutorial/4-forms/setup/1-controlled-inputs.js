@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-/* Notes - RENDERING FORM DATA - CONTROLLED INPUTS
+/* Notes - TAKING USER INPUT AND RENDERING FORM DATA - CONTROLLED INPUTS
 
 React
 - while using forms,

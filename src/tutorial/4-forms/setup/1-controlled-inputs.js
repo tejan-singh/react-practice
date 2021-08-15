@@ -24,29 +24,35 @@ const ControlledInputs = () => {
   const handleSubmit = function(e){
     e.preventDefault()
     
-    const person = {
-      firstName: firstNameValue,
-      email: emailValue
+    // will not work if input values are empty (FALSE)
+    if (firstNameValue && emailValue){
+      const person = {
+        firstName: firstNameValue,
+        email: emailValue
+      }
+  
+      // direclty setting people will result into storing a object
+      // setPeople(person)
+  
+      //use callback to pass the object inside the array
+      // this will also work but will render only only item and will update on render.
+      // setPeople(()=>{
+      //   return [person]
+      // })
+  
+      // to render all the items in arrary, render all previous items stored in array on each render using spread operator
+      setPeople((people)=>{
+        // render array with previous data + new data
+        return [...people,person]
+      })
+  
+      //you need to set the input fields to empty after items are rendered.
+      setFirstName('')
+      setEmail('')
     }
-
-    // direclty setting people will result into storing a object
-    // setPeople(person)
-
-    //use callback to pass the object inside the array
-    // this will also work but will render only only item and will update on render.
-    // setPeople(()=>{
-    //   return [person]
-    // })
-
-    // to render all the items in arrary, render all previous items stored in array on each render using spread operator
-    setPeople((people)=>{
-      // render array with previous data + new data
-      return [...people,person]
-    })
-
-    //you need to set the input fields to empty after items are rendered.
-    setFirstName('')
-    setEmail('')
+    else{
+      console.log('Empty form data')
+    }
 
   }
 

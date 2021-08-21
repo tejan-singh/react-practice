@@ -1,6 +1,18 @@
 import React, { useState, useReducer } from "react";
 import Modal from "./Modal";
 
+
+// Notes:- useReducer
+/*
+- it is used when you are changing complex states at once. 
+- e.g. adding / removing items and at the same time showing notifications.
+- consist of 3 steps:
+  1. set a default state object. 
+  2. set a reducer function with two parameters (state, action)
+  3. set default state and dispatchAction using useReducer function
+  4. call dispatchAction on particular events with an object in parameter defining the type of action and if need of any payload to pass.
+*/
+
 //1. default state
 const defaultState = {
   people: [],

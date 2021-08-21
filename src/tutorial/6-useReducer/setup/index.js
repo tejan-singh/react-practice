@@ -1,11 +1,9 @@
 import React, { useState, useReducer } from "react";
 import Modal from "./Modal";
-import { data } from "../../../data";
 
 //1. default state
 const defaultState = {
-  // people: [],
-  people:data,
+  people: [],
   showModel: true,
   modelContent: "hello world",
 };
@@ -15,8 +13,8 @@ const reducer = (state, action) => {
   if (action.type === "ADD_ITEM") {
     const allItems = [...state.people, action.payload];
     return {
-      ...state,
-      people: allItems,
+
+      people: allItems, //store all previously stored items + new items in the object 
       showModel: true,
       modelContent: "item added",
     };
@@ -24,7 +22,7 @@ const reducer = (state, action) => {
 
   if (action.type === "NO_VALUE") {
     return {
-      ...state,
+      ...state,  //store all previously stored items in the object 
       showModel: true,
       modelContent: "Please enter a value",
     };
@@ -32,8 +30,20 @@ const reducer = (state, action) => {
 
   if (action.type === "CLOSE_MODAL") {
     return {
-      ...state,
-      showModel: false
+      ...state, //store all previously stored items in the object
+      showModel: false,
+    };
+  }
+
+  if (action.type === "REMOVE_ITEM") {
+    // will return all people with id not equal to payload
+    const newItems = state.people.filter((person) => {
+     return person.id !== action.payload;
+    });
+    return {
+      people: newItems, //store all previously stored items without removed items in the object 
+      showModel: true,
+      modelContent: "item removed",
     };
   }
 
@@ -49,7 +59,7 @@ const Index = () => {
   const handleSubmit = function (e) {
     e.preventDefault();
     if (name) {
-      const newItem = { name: name };
+      const newItem = { name: name, id: new Date().getTime().toString() };
       //calling dispatchAction function with an object to define a action type
       dispatchAction({ type: "ADD_ITEM", payload: newItem });
       setName("");
@@ -62,24 +72,38 @@ const Index = () => {
     setName(e.target.value);
   };
 
-  const closeModal = function(){
+  const closeModal = function () {
     dispatchAction({ type: "CLOSE_MODAL" });
-  }
+  };
 
   return (
     <>
-      {state.showModel && <Modal modelContent={state.modelContent} closeModal={closeModal}/>}
+      {state.showModel && (
+        <Modal modelContent={state.modelContent} closeModal={closeModal} />
+      )}
       <form className="form" onSubmit={handleSubmit}>
         <input type="text" onChange={handleChange} value={name} />
         <button className="btn" type="submit">
           Add
         </button>
       </form>
-      <div>
-        {state.people.map((person) => {
-          return <p>{person.name}</p>;
-        })}
-      </div>
+
+      {state.people.map((person) => {
+        return (
+          <div key={person.id} className="item">
+            <p>{person.name}</p>
+
+            {/* define inline function and dispatchAction*/}
+            <button
+              onClick={() => {
+                dispatchAction({ type: "REMOVE_ITEM", payload: person.id });
+              }}
+            >
+              Remove
+            </button>
+          </div>
+        );
+      })}
     </>
   );
 };

@@ -11,7 +11,7 @@ import Person from "./Person";
 import Navbar from "./Navbar";
 
 // Router -> Switch -> Each Route -> respecitive Component
-// Route attributes can be => exact, path="/" or "*"
+// Route attributes can be => exact, path="/" or "*", childern(for nested components)
 const ReactRouterSetup = () => {
   return (
     <Router>
@@ -31,6 +31,9 @@ const ReactRouterSetup = () => {
         <Route path="/people">
           <People />
         </Route>
+
+          {/* // :id is always looking for value defined inside the Parent component <Link> */}
+          <Route path='/person/:id' children={<Person/>}></Route>
 
         {/*  (*) meanes all undefined paths. note:- ALWAYS DEFINE THIS AS LAST ROUTE. ROUTES DEFINED AFTER * WILL ALWAYS BE DISPLAYED AS ERROR */}
         <Route path="*">

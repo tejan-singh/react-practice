@@ -1,6 +1,12 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react'
 import { useFetch } from '../../9-custom-hooks/final/2-useFetch'
 
+//Notes - React.memo()
+/*
+- if a component's prop value are same between re-render, then on state change, the components will not re-render
+*/
+
+
 // ATTENTION!!!!!!!!!!
 // I SWITCHED TO PERMANENT DOMAIN
 const url = 'https://course-api.com/javascript-store-products'
@@ -22,7 +28,11 @@ const Index = () => {
   )
 }
 
-const BigList = ({ products }) => {
+const BigList = React.memo(({ products }) => {
+  useEffect(()=>{
+    console.log('Big list called')
+  })
+
   return (
     <section className='products'>
       {products.map((product) => {
@@ -30,9 +40,13 @@ const BigList = ({ products }) => {
       })}
     </section>
   )
-}
+})
 
 const SingleProduct = ({ fields }) => {
+  useEffect(()=>{
+    console.log('Small list called')
+  })
+
   let { name, price } = fields
   price = price / 100
   const image = fields.image[0].url
